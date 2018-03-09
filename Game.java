@@ -50,17 +50,17 @@ public class Game
         fueraCastillo = new Room("Has llegado a la Salida del Castillo, al fin has podido escapar.");
 
         // initialise room exits
-        habitacionInicial.setExits(pasilloNorte, pasilloEste, pasilloSur, pasilloOeste, null);
-        pasilloNorte.setExits(null, biblioteca, null, null, null);
-        pasilloEste.setExits(biblioteca, null, null, habitacionInicial, null);
-        pasilloOeste.setExits(null, habitacionInicial, null, null, null);
-        pasilloSur.setExits(habitacionInicial, null, vestibulo, null, comedor);
-        biblioteca.setExits(null, null, pasilloEste, pasilloNorte, null);
-        vestibulo.setExits(pasilloSur, comedor, null, salaChimenea, null);
-        comedor.setExits(null, null, null, vestibulo, null);
-        salaChimenea.setExits(entrada, vestibulo, null, null, null);
-        entrada.setExits(null, null, salaChimenea, fueraCastillo, null);
-        fueraCastillo.setExits(null, entrada, null, null, null);
+        habitacionInicial.setExits(pasilloNorte, pasilloEste, pasilloSur, pasilloOeste, null, null);
+        pasilloNorte.setExits(null, biblioteca, null, null, null, null);
+        pasilloEste.setExits(biblioteca, null, null, habitacionInicial, null, null);
+        pasilloOeste.setExits(null, habitacionInicial, null, null, null, null);
+        pasilloSur.setExits(habitacionInicial, null, vestibulo, null, comedor, null);
+        biblioteca.setExits(null, null, pasilloEste, pasilloNorte, null, null);
+        vestibulo.setExits(pasilloSur, comedor, null, salaChimenea, null, null);
+        comedor.setExits(null, null, null, vestibulo, null, pasilloSur);
+        salaChimenea.setExits(entrada, vestibulo, null, null, null, null);
+        entrada.setExits(null, null, salaChimenea, fueraCastillo, null, null);
+        fueraCastillo.setExits(null, entrada, null, null, null, null);
 
         currentRoom = habitacionInicial;  // start game outside
     }
