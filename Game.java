@@ -19,7 +19,7 @@ public class Game
 {
     private Parser parser;
     private Room currentRoom;
-        
+
     /**
      * Create the game and initialise its internal map.
      */
@@ -35,7 +35,7 @@ public class Game
     private void createRooms()
     {
         Room fueraCastillo, entrada, salaChimenea, vestibulo, comedor, pasilloSur, habitacionInicial, pasilloOeste, pasilloEste, biblioteca, pasilloNorte;
-      
+
         // create the rooms
         habitacionInicial = new Room("Te despiertas aturdido en una habitación desconocida, tienes que lograr escapar de allí.");
         pasilloOeste = new Room("Llegas al Pasillo Oeste, esta destruido, no puedes avanzar por ahí.");
@@ -48,7 +48,7 @@ public class Game
         salaChimenea = new Room("Entras a una sala con sillones y una chimenea en el centro de estos, hay dos puertas, por la que has entrado y otra, ¿Cuál decides tomar?");
         entrada = new Room("Llegas a la entrada del castillo, la salida esta justo en frente de ti, puedes salir o seguir investigando el castillo, ¿Qué eliges?");
         fueraCastillo = new Room("Has llegado a la Salida del Castillo, al fin has podido escapar.");
-        
+
         // initialise room exits
         habitacionInicial.setExits(pasilloNorte, pasilloEste, pasilloSur, pasilloOeste);
         pasilloNorte.setExits(null, biblioteca, null, null);
@@ -74,13 +74,13 @@ public class Game
 
         // Enter the main command loop.  Here we repeatedly read commands and
         // execute them until the game is over.
-                
+
         boolean finished = false;
         while (! finished) {
             Command command = parser.getCommand();
             finished = processCommand(command);
         }
-        System.out.println("Thank you for playing.  Good bye.");
+        System.out.println("Gracias por jugar, adios.");
     }
 
     /**
@@ -93,21 +93,7 @@ public class Game
         System.out.println("En Legend of Ekem trataremos de escapar de un castillo donde hemos despertado sin saber como hemos llegado allí.");
         System.out.println("Escribe 'help' si necesitas ayuda.");
         System.out.println();
-        System.out.println("Estas: " + currentRoom.getDescription());
-        System.out.print("Salidas: ");
-        if(currentRoom.northExit != null) {
-            System.out.print("north ");
-        }
-        if(currentRoom.eastExit != null) {
-            System.out.print("east ");
-        }
-        if(currentRoom.southExit != null) {
-            System.out.print("south ");
-        }
-        if(currentRoom.westExit != null) {
-            System.out.print("west ");
-        }
-        System.out.println();
+        printLocation();
     }
 
     /**
@@ -137,8 +123,6 @@ public class Game
 
         return wantToQuit;
     }
-
-    // implementations of user commands:
 
     /**
      * Print out some help information.
@@ -188,21 +172,7 @@ public class Game
         }
         else {
             currentRoom = nextRoom;
-            System.out.println("Estas en: " + currentRoom.getDescription());
-            System.out.print("Salidas: ");
-            if(currentRoom.northExit != null) {
-                System.out.print("north ");
-            }
-            if(currentRoom.eastExit != null) {
-                System.out.print("east ");
-            }
-            if(currentRoom.southExit != null) {
-                System.out.print("south ");
-            }
-            if(currentRoom.westExit != null) {
-                System.out.print("west ");
-            }
-            System.out.println();
+            printLocation();
         }
     }
 
@@ -214,11 +184,33 @@ public class Game
     private boolean quit(Command command) 
     {
         if(command.hasSecondWord()) {
-            System.out.println("Quit what?");
+            System.out.println("¿Salir donde?");
             return false;
         }
         else {
             return true;  // signal that we want to quit
         }
+    }
+
+    /**
+     * Método para que no haya repetición en los otros. Ejercicio 0108
+     */
+    private void printLocation()
+    {
+        System.out.println("Estas en: " + currentRoom.getDescription());
+        System.out.print("Salidas: ");
+        if(currentRoom.northExit != null) {
+            System.out.print("north ");
+        }
+        if(currentRoom.eastExit != null) {
+            System.out.print("east ");
+        }
+        if(currentRoom.southExit != null) {
+            System.out.print("south ");
+        }
+        if(currentRoom.westExit != null) {
+            System.out.print("west ");
+        }
+        System.out.println();
     }
 }
