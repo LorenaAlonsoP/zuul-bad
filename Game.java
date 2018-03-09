@@ -34,23 +34,35 @@ public class Game
      */
     private void createRooms()
     {
-        Room outside, theater, pub, lab, office;
+        Room fueraCastillo, entrada, salaChimenea, vestibulo, comedor, pasilloSur, habitacionInicial, pasilloOeste, pasilloEste, biblioteca, pasilloNorte;
       
         // create the rooms
-        outside = new Room("outside the main entrance of the university");
-        theater = new Room("in a lecture theater");
-        pub = new Room("in the campus pub");
-        lab = new Room("in a computing lab");
-        office = new Room("in the computing admin office");
+        habitacionInicial = new Room("Te despiertas aturdido en una habitación desconocida, tienes que lograr escapar de allí.");
+        pasilloOeste = new Room("Llegas al Pasillo Oeste, esta destruido, no puedes avanzar por ahí.");
+        pasilloNorte = new Room("Llegas al Pasillo Norte, ¿Dónde deberías avanzar ahora?");
+        pasilloEste = new Room("Llegas al Pasillo Este, ¿Dónde deberías avanzar ahora?");
+        pasilloSur = new Room("Llegas al Pasillo Sur, el más grande de todos, ¿Dónde deberías avanzar ahora?");
+        biblioteca = new Room("Entras en una Biblioteca enorme, repleta de libros de todo tipo, solo hay dos puertas, por la que acabas de entrar y otra, ¿Cuál eliges?");
+        vestibulo = new Room("Entras en un Vestibulo enorme que conecta con varias salas, ¿A cuál quieres ir?");
+        comedor = new Room("Llegas a un enorme comedor, pero no hay ninguna salida, deberás volver por donde has venido.");
+        salaChimenea = new Room("Entras a una sala con sillones y una chimenea en el centro de estos, hay dos puertas, por la que has entrado y otra, ¿Cuál decides tomar?");
+        entrada = new Room("Llegas a la entrada del castillo, la salida esta justo en frente de ti, puedes salir o seguir investigando el castillo, ¿Qué eliges?");
+        fueraCastillo = new Room("Has llegado a la Salida del Castillo, al fin has podido escapar.");
         
         // initialise room exits
-        outside.setExits(null, theater, lab, pub);
-        theater.setExits(null, null, null, outside);
-        pub.setExits(null, outside, null, null);
-        lab.setExits(outside, office, null, null);
-        office.setExits(null, null, null, lab);
+        habitacionInicial.setExits(pasilloNorte, pasilloEste, pasilloSur, pasilloOeste);
+        pasilloNorte.setExits(null, biblioteca, null, null);
+        pasilloEste.setExits(biblioteca, null, null, habitacionInicial);
+        pasilloOeste.setExits(null, habitacionInicial, null, null);
+        pasilloSur.setExits(habitacionInicial, null, vestibulo, null);
+        biblioteca.setExits(null, null, pasilloEste, pasilloNorte);
+        vestibulo.setExits(pasilloSur, comedor, null, salaChimenea);
+        comedor.setExits(null, null, null, vestibulo);
+        salaChimenea.setExits(entrada, vestibulo, null, null);
+        entrada.setExits(null, null, salaChimenea, fueraCastillo);
+        fueraCastillo.setExits(null, entrada, null, null);
 
-        currentRoom = outside;  // start game outside
+        currentRoom = habitacionInicial;  // start game outside
     }
 
     /**
@@ -77,12 +89,12 @@ public class Game
     private void printWelcome()
     {
         System.out.println();
-        System.out.println("Welcome to the World of Zuul!");
-        System.out.println("World of Zuul is a new, incredibly boring adventure game.");
-        System.out.println("Type 'help' if you need help.");
+        System.out.println("¡Bienvenido a Legend of Ekem!");
+        System.out.println("En Legend of Ekem trataremos de escapar de un castillo donde hemos despertado sin saber como hemos llegado allí.");
+        System.out.println("Escribe 'help' si necesitas ayuda.");
         System.out.println();
-        System.out.println("You are " + currentRoom.getDescription());
-        System.out.print("Exits: ");
+        System.out.println("Estas: " + currentRoom.getDescription());
+        System.out.print("Salidas: ");
         if(currentRoom.northExit != null) {
             System.out.print("north ");
         }
@@ -108,7 +120,7 @@ public class Game
         boolean wantToQuit = false;
 
         if(command.isUnknown()) {
-            System.out.println("I don't know what you mean...");
+            System.out.println("No entiendo que has querido decir.");
             return false;
         }
 
@@ -135,10 +147,10 @@ public class Game
      */
     private void printHelp() 
     {
-        System.out.println("You are lost. You are alone. You wander");
-        System.out.println("around at the university.");
+        System.out.println("Estas solo, perdido y desorientado.");
+        System.out.println("en un castillo desconocido.");
         System.out.println();
-        System.out.println("Your command words are:");
+        System.out.println("Tus palabras comando son:");
         System.out.println("   go quit help");
     }
 
@@ -150,7 +162,7 @@ public class Game
     {
         if(!command.hasSecondWord()) {
             // if there is no second word, we don't know where to go...
-            System.out.println("Go where?");
+            System.out.println(":¿A dónde?");
             return;
         }
 
@@ -176,8 +188,8 @@ public class Game
         }
         else {
             currentRoom = nextRoom;
-            System.out.println("You are " + currentRoom.getDescription());
-            System.out.print("Exits: ");
+            System.out.println("Estas en: " + currentRoom.getDescription());
+            System.out.print("Salidas: ");
             if(currentRoom.northExit != null) {
                 System.out.print("north ");
             }
