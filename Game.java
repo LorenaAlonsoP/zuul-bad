@@ -50,17 +50,39 @@ public class Game
         fueraCastillo = new Room("Has llegado a la Salida del Castillo, al fin has podido escapar.");
 
         // initialise room exits
-        habitacionInicial.setExits(pasilloNorte, pasilloEste, pasilloSur, pasilloOeste, null, null);
-        pasilloNorte.setExits(null, biblioteca, null, null, null, null);
-        pasilloEste.setExits(biblioteca, null, null, habitacionInicial, null, null);
-        pasilloOeste.setExits(null, habitacionInicial, null, null, null, null);
-        pasilloSur.setExits(habitacionInicial, null, vestibulo, null, comedor, null);
-        biblioteca.setExits(null, null, pasilloEste, pasilloNorte, null, null);
-        vestibulo.setExits(pasilloSur, comedor, null, salaChimenea, null, null);
-        comedor.setExits(null, null, null, vestibulo, null, pasilloSur);
-        salaChimenea.setExits(entrada, vestibulo, null, null, null, null);
-        entrada.setExits(null, null, salaChimenea, fueraCastillo, null, null);
-        fueraCastillo.setExits(null, entrada, null, null, null, null);
+        habitacionInicial.setExit("north", pasilloNorte);
+        habitacionInicial.setExit("east", pasilloEste);
+        habitacionInicial.setExit("south", pasilloSur);
+        habitacionInicial.setExit("West", pasilloOeste);
+        
+        pasilloNorte.setExit("east", biblioteca);
+        
+        pasilloEste.setExit("north", biblioteca);
+        pasilloEste.setExit("west", habitacionInicial);
+        
+        pasilloOeste.setExit("east", habitacionInicial);
+        
+        pasilloSur.setExit("north", habitacionInicial);
+        pasilloSur.setExit("south", vestibulo);
+        pasilloSur.setExit("southEast", comedor);
+        
+        biblioteca.setExit("south", pasilloEste);
+        biblioteca.setExit("west", pasilloNorte);
+        
+        vestibulo.setExit("north", pasilloSur);
+        vestibulo.setExit("east", comedor);
+        vestibulo.setExit("west", salaChimenea);
+        
+        comedor.setExit("west", vestibulo);
+        comedor.setExit("northWest", pasilloSur);
+        
+        salaChimenea.setExit("north", entrada);
+        salaChimenea.setExit("east", vestibulo);
+        
+        entrada.setExit("south", salaChimenea);
+        entrada.setExit("west", fueraCastillo);
+        
+        fueraCastillo.setExit("east", entrada);
 
         currentRoom = habitacionInicial;  // start game outside
     }

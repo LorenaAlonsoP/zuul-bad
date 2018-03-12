@@ -16,7 +16,7 @@ import java.util.HashMap;
 public class Room 
 {
     private String description;
-    
+
     private HashMap<String, Room> exits;
     /**
      * Create a room described "description". Initially, it has
@@ -31,29 +31,12 @@ public class Room
     }
 
     /**
-     * Define the exits of this room.  Every direction either leads
-     * to another room or is null (no exit there).
-     * @param north The north exit.
-     * @param east The east east.
-     * @param south The south exit.
-     * @param west The west exit.
+     * Define an exit from this room.
+     * @param direction The direction of the exit.
+     * @param neighbor The room in the given direction.
      */
-    public void setExits(Room north, Room east, Room south, Room west, Room southEast, Room northWest) 
-    {
-        if(north != null)
-            exits.put("north", north);
-        if(east != null)
-            exits.put("east", east);
-        if(south != null)
-            exits.put("south", south);
-        if(west != null)
-            exits.put("west", west);
-        if(southEast != null) {
-            exits.put("southEast", southEast);
-        }
-        if(northWest != null) {
-            exits.put("northWest", northWest);
-        }
+    public void setExit(String direction, Room neighbor) {
+        exits.put(direction, neighbor);
     }
 
     /**
@@ -72,26 +55,7 @@ public class Room
      */
     public Room getExit(String direction)
     {
-        Room nextRoom = null;
-        if(direction.equals("north")) {
-            nextRoom = exits.get("north");
-        }
-        if(direction.equals("south")) {
-            nextRoom = exits.get("south");
-        }
-        if(direction.equals("east")) {
-            nextRoom = exits.get("east");
-        }
-        if(direction.equals("west")) {
-            nextRoom = exits.get("west");
-        }
-        if(direction.equals("southEast")) {
-            nextRoom = exits.get("southEast");
-        }
-        if(direction.equals("northWest")) {
-            nextRoom = exits.get("northWest");
-        }
-        return nextRoom;
+        return exits.get(direction);
     }
 
     /**
