@@ -162,8 +162,8 @@ public class Game
         System.out.println("Estas solo, perdido y desorientado.");
         System.out.println("en un castillo desconocido.");
         System.out.println();
-        System.out.println("Tus palabras comando son:");
-        System.out.println("   go quit help");
+        System.out.println("Your command words are:");
+        parser.showCommands();
     }
 
     /** 
@@ -222,7 +222,7 @@ public class Game
     {
         System.out.println(currentRoom.getLongDescription());
     }
-    
+
     private void eat() 
     {
         System.out.println("Acabas de comer y ya no tienes hambre.");
