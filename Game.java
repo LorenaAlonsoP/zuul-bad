@@ -54,34 +54,34 @@ public class Game
         habitacionInicial.setExit("east", pasilloEste);
         habitacionInicial.setExit("south", pasilloSur);
         habitacionInicial.setExit("West", pasilloOeste);
-        
+
         pasilloNorte.setExit("east", biblioteca);
-        
+
         pasilloEste.setExit("north", biblioteca);
         pasilloEste.setExit("west", habitacionInicial);
-        
+
         pasilloOeste.setExit("east", habitacionInicial);
-        
+
         pasilloSur.setExit("north", habitacionInicial);
         pasilloSur.setExit("south", vestibulo);
         pasilloSur.setExit("southEast", comedor);
-        
+
         biblioteca.setExit("south", pasilloEste);
         biblioteca.setExit("west", pasilloNorte);
-        
+
         vestibulo.setExit("north", pasilloSur);
         vestibulo.setExit("east", comedor);
         vestibulo.setExit("west", salaChimenea);
-        
+
         comedor.setExit("west", vestibulo);
         comedor.setExit("northWest", pasilloSur);
-        
+
         salaChimenea.setExit("north", entrada);
         salaChimenea.setExit("east", vestibulo);
-        
+
         entrada.setExit("south", salaChimenea);
         entrada.setExit("west", fueraCastillo);
-        
+
         fueraCastillo.setExit("east", entrada);
 
         currentRoom = habitacionInicial;  // start game outside
@@ -139,6 +139,9 @@ public class Game
         else if (commandWord.equals("go")) {
             goRoom(command);
         }
+        else if (commandWord.equals("look")) {
+            look();
+        }
         else if (commandWord.equals("quit")) {
             wantToQuit = quit(command);
         }
@@ -177,7 +180,7 @@ public class Game
         // Try to leave current room
 
         Room nextRoom = currentRoom.getExit(direction);
-        
+
         if (nextRoom == null) {
             System.out.println("There is no door!");
         }
@@ -210,5 +213,10 @@ public class Game
     {
         System.out.println(currentRoom.getLongDescription());
         System.out.println();
+    }
+
+    private void look() 
+    {
+        System.out.println(currentRoom.getLongDescription());
     }
 }
