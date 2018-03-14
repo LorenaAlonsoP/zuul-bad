@@ -163,7 +163,7 @@ public class Game
         System.out.println("en un castillo desconocido.");
         System.out.println();
         System.out.println("Your command words are:");
-        parser.showCommands();
+        System.out.println(parser.showCommands());
     }
 
     /** 
@@ -191,6 +191,7 @@ public class Game
             currentRoom = nextRoom;
             printLocation();
         }
+    
     }
 
     /** 
