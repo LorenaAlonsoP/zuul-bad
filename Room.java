@@ -16,7 +16,7 @@ import java.util.HashMap;
 public class Room 
 {
     private String description;
-
+    private Item items;
     private HashMap<String, Room> exits;
     /**
      * Create a room described "description". Initially, it has
@@ -24,9 +24,10 @@ public class Room
      * "an open court yard".
      * @param description The room's description.
      */
-    public Room(String description) 
+    public Room(String description, Item items) 
     {
         this.description = description;
+        this.items = items;
         exits = new HashMap<>();
     }
 
@@ -95,6 +96,11 @@ public class Room
      */
     public String getLongDescription()
     {
-        return "Tu estas en " + description + ".\n" + getExitString();
+        String dato = "";
+        dato = "Tu estas en " + description + ".\n" + "¡Has encontrado un objeto" + items.getDescription() + "Este objeto pesa: " + items.getWeight() + ".\n" + getExitString();
+        if(items.getDescription() == null) {
+            dato = "Tu estas en " + description + ".\n" + getExitString();
+        }
+        return dato;
     }
 }

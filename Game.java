@@ -19,7 +19,6 @@ public class Game
 {
     private Parser parser;
     private Room currentRoom;
-
     /**
      * Create the game and initialise its internal map.
      */
@@ -37,17 +36,17 @@ public class Game
         Room fueraCastillo, entrada, salaChimenea, vestibulo, comedor, pasilloSur, habitacionInicial, pasilloOeste, pasilloEste, biblioteca, pasilloNorte;
 
         // create the rooms
-        habitacionInicial = new Room("Te despiertas aturdido en una habitación desconocida, tienes que lograr escapar de allí.");
-        pasilloOeste = new Room("Llegas al Pasillo Oeste, esta destruido, no puedes avanzar por ahí.");
-        pasilloNorte = new Room("Llegas al Pasillo Norte, ¿Dónde deberías avanzar ahora?");
-        pasilloEste = new Room("Llegas al Pasillo Este, ¿Dónde deberías avanzar ahora?");
-        pasilloSur = new Room("Llegas al Pasillo Sur, el más grande de todos, ¿Dónde deberías avanzar ahora?");
-        biblioteca = new Room("Entras en una Biblioteca enorme, repleta de libros de todo tipo, solo hay dos puertas, por la que acabas de entrar y otra, ¿Cuál eliges?");
-        vestibulo = new Room("Entras en un Vestibulo enorme que conecta con varias salas, ¿A cuál quieres ir?");
-        comedor = new Room("Llegas a un enorme comedor, pero no hay ninguna salida, deberás volver por donde has venido.");
-        salaChimenea = new Room("Entras a una sala con sillones y una chimenea en el centro de estos, hay dos puertas, por la que has entrado y otra, ¿Cuál decides tomar?");
-        entrada = new Room("Llegas a la entrada del castillo, la salida esta justo en frente de ti, puedes salir o seguir investigando el castillo, ¿Qué eliges?");
-        fueraCastillo = new Room("Has llegado a la Salida del Castillo, al fin has podido escapar.");
+        habitacionInicial = new Room("Te despiertas aturdido en una habitación desconocida, tienes que lograr escapar de allí.", new Item("Tocador.", 50));
+        pasilloOeste = new Room("Llegas al Pasillo Oeste, esta destruido, no puedes avanzar por ahí.", new Item( "Escombros", 200));
+        pasilloNorte = new Room("Llegas al Pasillo Norte, ¿Dónde deberías avanzar ahora?", new Item( "Espejo", 5));
+        pasilloEste = new Room("Llegas al Pasillo Este, ¿Dónde deberías avanzar ahora?", new Item( null, 0));
+        pasilloSur = new Room("Llegas al Pasillo Sur, el más grande de todos, ¿Dónde deberías avanzar ahora?", new Item("Escultura", 500));
+        biblioteca = new Room("Entras en una Biblioteca enorme, repleta de libros de todo tipo, solo hay dos puertas, por la que acabas de entrar y otra, ¿Cuál eliges?", new Item("Libro", 1));
+        vestibulo = new Room("Entras en un Vestibulo enorme que conecta con varias salas, ¿A cuál quieres ir?", new Item("Sillón", 30));
+        comedor = new Room("Llegas a un enorme comedor, pero no hay ninguna salida, deberás volver por donde has venido.", new Item("Silla", 3));
+        salaChimenea = new Room("Entras a una sala con sillones y una chimenea en el centro de estos, hay dos puertas, por la que has entrado y otra, ¿Cuál decides tomar?", new Item("Sofá", 20));
+        entrada = new Room("Llegas a la entrada del castillo, la salida esta justo en frente de ti, puedes salir o seguir investigando el castillo, ¿Qué eliges?", new Item(null, 0));
+        fueraCastillo = new Room("Has llegado a la Salida del Castillo, al fin has podido escapar.", new Item(null, 0));
 
         // initialise room exits
         habitacionInicial.setExit("north", pasilloNorte);
