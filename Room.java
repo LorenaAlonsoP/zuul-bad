@@ -1,4 +1,5 @@
 import java.util.HashMap;
+import java.util.ArrayList;
 /**
  * Class Room - a room in an adventure game.
  *
@@ -18,16 +19,17 @@ public class Room
     private String description;
     private Item items;
     private HashMap<String, Room> exits;
+    private ArrayList<Item> listaItems;
     /**
      * Create a room described "description". Initially, it has
      * no exits. "description" is something like "a kitchen" or
      * "an open court yard".
      * @param description The room's description.
      */
-    public Room(String description, Item items) 
+    public Room(String description) 
     {
         this.description = description;
-        this.items = items;
+        listaItems = new ArrayList<>();
         exits = new HashMap<>();
     }
 
@@ -97,10 +99,33 @@ public class Room
     public String getLongDescription()
     {
         String dato = "";
-        dato = "Tu estas en " + description + ".\n" + "¡Has encontrado un objeto" + items.getDescription() + "Este objeto pesa: " + items.getWeight() + ".\n" + getExitString();
-        if(items.getDescription() == null) {
-            dato = "Tu estas en " + description + ".\n" + getExitString();
-        }
+        dato = "Tu estas en " + description + ".\n" + "Objetos encontrados: " + devolverItem() + ".\n" +  getExitString();
         return dato;
+    }
+    
+    /**
+     * Metodo para añadir más de un objeto.
+     */
+    public void addItem(String itemDescription, int itemWeight) 
+    {
+        Item newItem = new Item(itemDescription, itemWeight);
+        listaItems.add(newItem);
+    }
+    
+    /**
+     * Devuelve la lista de items.
+     */
+    public String devolverItem()
+    {
+        String itemDato = "";
+        if(listaItems.size() == 0) {
+            itemDato = "No hay objetos";
+        }
+        else {
+            for(Item object : listaItems) {
+                itemDato += object.getItemDescription() + " ";
+            }
+        }
+        return itemDato;
     }
 }

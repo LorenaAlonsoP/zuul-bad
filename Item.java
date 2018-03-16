@@ -23,12 +23,12 @@ public class Item
     /**
      * @return The description of the room.
      */
-    public String getDescription()
+    public String getItemDescription()
     {
         return itemDescription;
     }
     
-    public void setDescription(String newDescription)
+    public void setItemDescription(String newDescription)
     {
         itemDescription = newDescription;
     }
@@ -45,4 +45,5 @@ public class Item
     {
         itemWeight = newWeight;
     }
+    
 }
