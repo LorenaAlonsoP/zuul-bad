@@ -1,4 +1,6 @@
 import java.util.Stack;
+import java.util.ArrayList;
+import java.util.Random;
 /**
  *  This class is the main class of the "World of Zuul" application. 
  *  "World of Zuul" is a very simple, text based adventure game.  Users 
@@ -21,6 +23,9 @@ public class Game
     private Parser parser;
     private Room currentRoom;
     private Stack<Room> ultimaSala;
+    private ArrayList<Item> bolsa;
+    private int pesoBolsa;
+    private static final int pesoMaximo = 50;
     /**
      * Create the game and initialise its internal map.
      */
@@ -29,6 +34,8 @@ public class Game
         createRooms();
         parser = new Parser();
         ultimaSala = new Stack<>();
+        bolsa = new ArrayList<>();
+        pesoBolsa = 0;
     }
 
     /**
@@ -86,20 +93,31 @@ public class Game
 
         fueraCastillo.setExit("east", entrada);
 
-        habitacionInicial.addItem("Espejo", 8);
-        
-        pasilloSur.addItem("Escultura de marmol", 200);
-        
-        biblioteca.addItem("Estanteria de libros", 20);
-        
-        vestibulo.addItem("Fuente", 250);
-        
-        comedor.addItem("Silla", 10);
-        
-        salaChimenea.addItem("Sillón", 50);
-        
-        entrada.addItem("Florero", 30);
-        
+        //Create the items.
+
+        Item espejo, bolsaDeMonedas, escultura, libro, fuente, silla;
+
+        espejo = new Item("Espejo", "Espejo antiguo colgado de la pared.", 2, false);
+        bolsaDeMonedas = new Item("Bolsa de Monedas", "Bolsa de monedas de oro.", 20, true);
+        escultura = new Item("Escultura de Marmol", "Estatus de marmol situada en el medio del gran pasillo.", 200, false);
+        libro = new Item("Libro", "Libro sobre una mesa, parece tener información importante.", 20, true);
+        fuente = new Item("Fuente", "Fuente situada en el centro de la sala.", 250, false);
+        silla = new Item("Silla", "Silla descolocada en comparación al resto.", 10, true);
+
+        habitacionInicial.addItem(espejo);
+
+        pasilloNorte.addItem(bolsaDeMonedas);
+
+        pasilloSur.addItem(escultura);
+
+        pasilloOeste.addItem(bolsaDeMonedas);
+
+        biblioteca.addItem(libro);
+
+        vestibulo.addItem(fuente);
+
+        comedor.addItem(silla);
+
         currentRoom = habitacionInicial;  // start game outside
     }
 
@@ -144,7 +162,7 @@ public class Game
         boolean wantToQuit = false;
 
         if(command.isUnknown()) {
-            System.out.println("No entiendo que has querido decir.");
+            System.out.println("1");
             return false;
         }
 
@@ -163,6 +181,15 @@ public class Game
         }
         else if (commandWord.equals("back")) {
             back();
+        }
+        else if(commandWord.equals("take")) {
+            take(command.getSecondWord());
+        }
+        else if(commandWord.equals("drop")) {
+            drop(command.getSecondWord());
+        }
+        else if(commandWord.equals("items")) {
+            itemsBolsa();
         }
         else if (commandWord.equals("quit")) {
             wantToQuit = quit(command);
@@ -211,7 +238,7 @@ public class Game
             currentRoom = nextRoom;
             printLocation();
         }
-    
+
     }
 
     /** 
@@ -248,7 +275,7 @@ public class Game
     {
         System.out.println("Acabas de comer y ya no tienes hambre.");
     }
-    
+
     /**
      * Método para volver a la sala anterior
      */
@@ -259,4 +286,94 @@ public class Game
             printLocation();
         }
     }
+
+    /**
+     * Método para añadir item a la bolsa.
+     */
+    public void addItemBolsa(Item item) 
+    {
+        bolsa.add(item);
+    }
+
+    /**
+     * Método para coger un objeto de una sala
+     */
+    private void take(String nombre) 
+    {
+        ArrayList<Item> itemsRoom = currentRoom.getListItems();
+        Item item = null;
+        for(int i=0;i < itemsRoom.size(); i++)
+        {
+            if(itemsRoom.get(i).getNombre().equals(nombre))
+            {
+                item = itemsRoom.get(i);
+            }
+        }
+        
+        if(item.getTakeItem() && item != null){
+            int pesoTotal = pesoBolsa + item.getWeight();
+            boolean disponibilidad = true;
+            int contador = 0;            
+            if(pesoTotal <= pesoMaximo){
+                bolsa.add(item);
+                pesoBolsa += item.getWeight();
+                itemsRoom.remove(item);
+                System.out.println("Has metido en la bolsa el siguiente item: " + nombre);
+            }
+            else{
+                System.out.println("La bolsa está a tope, no puedes coger más cosas.");
+            }            
+        }
+        else{
+            System.out.println("No puedes coger ese item.");
+        }
+    }
+
+    /**
+     * Método para mostrar los items que hay en la bolsa
+     */
+    private void itemsBolsa() 
+    {
+        String texto = "En la bolsa tienes: ";
+        if(bolsa.size() > 0){
+            for(Item item : bolsa)
+            {
+                texto += item.getItemDescription() + " ";         
+            }
+            texto += "\n" + "La capacidad de la bolsa es :" + pesoBolsa + "Kg";
+            System.out.println(texto);
+        }
+        else{
+            System.out.println("La bolsa está vacia.");
+        }
+    }
+
+    /**
+     * Método para dejar objetos en las habitaciones.
+     */
+    private void drop(String nombre) 
+    {
+        if(bolsa.size() > 0){
+            boolean disponibilidad = true;
+            int contador = 0;
+            Item item = null;
+            while(disponibilidad)
+            {
+                if(bolsa.get(contador).getNombre().equals(nombre)){
+                    item = bolsa.get(contador);
+                    currentRoom.addItem(item);
+                    disponibilidad = false;
+                    pesoBolsa -= item.getWeight();
+                    bolsa.remove(contador);
+                }
+                contador++;
+            }
+            System.out.println("Has soltado este objeto: " + nombre);
+        }
+        else
+        {
+            System.out.println("La bolsa está vacia, no puedes soltar ningun objeto.");
+        }
+    }   
 }
+
