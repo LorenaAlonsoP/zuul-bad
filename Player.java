@@ -106,4 +106,19 @@ public class Player
             }
         }
     }
+    
+    /**
+     * Método que muestra los objetos que se encuentran dentro de la bolsa.
+     */
+    public void dentroBolsa() 
+    {
+        if(bolsa.size() == 0) {
+            System.out.println("La bolsa está vacía.");
+        }
+        else {
+            for (Item itemA : bolsa) {
+                System.out.println(itemA.getItemDescription() + " - " + itemA.getWeight() + " Kg.");
+            }
+        }
+    }
 }
