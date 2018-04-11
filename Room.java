@@ -123,9 +123,33 @@ public class Room
         }
         else {
             for(Item object : listaItems) {
-                itemDato += object.getItemDescription() + " ";
+                itemDato += object.getItemDescription() + " - " + object.getItemDescription() + " Kg.";
             }
         }
         return itemDato;
+    }
+    
+    /**
+     * ArrayList del item.
+     */
+    public ArrayList<Item> firstItemList()
+    {
+        return listaItems;
+    }
+    
+    /**
+     * Método para eliminar objetos de la sala.
+     */
+    public void removeItem(Item remove)
+    {
+        listaItems.remove(remove);
+    }
+    
+    /**
+     * Método para añadir nuevos objetos.
+     */
+    public void addItem(Item add) 
+    {
+        listaItems.add(add);
     }
 }

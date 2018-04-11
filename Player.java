@@ -1,5 +1,5 @@
 import java.util.Stack;
-
+import java.util.ArrayList;
 /**
  * Write a description of class Player here.
  *
@@ -11,6 +11,7 @@ public class Player
     // instance variables - replace the example below with your own
     private Room currentRoom;
     private Stack<Room> ultimaSala;
+    private ArrayList<Item> bolsa;
     /**
      * Constructor for objects of class Player
      */
@@ -18,6 +19,7 @@ public class Player
     {
         ultimaSala = new Stack<>();
         currentRoom = habitacionInicial;
+        bolsa = new ArrayList<>();
     }
 
     /** 
@@ -67,8 +69,34 @@ public class Player
         }
     }
     
+    /**
+     * Método que permite al personaje comer.
+     */
     public void eat() 
     {
         System.out.println("Acabas de comer y ya no tienes hambre.");
+    }
+    
+    /**
+     * Método que permite al personaje coger objetos.
+     */
+    public void take(Command command)
+    {
+        if(!command.hasSecondWord()) {
+            System.out.println("¿Qué item quieres coger?");
+            return;
+        }
+        String item = (command.getSecondWord());
+        ArrayList<Item> coger = currentRoom.firstItemList();
+        for (Item itemA : coger)
+        {
+            if(itemA.getItemDescription().equals (item))
+            {
+                System.out.println("Item añadido a la bolsa.");
+                bolsa.add(itemA);
+                currentRoom.removeItem(itemA);
+                break;
+            }
+        }
     }
 }

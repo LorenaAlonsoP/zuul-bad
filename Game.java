@@ -162,6 +162,9 @@ public class Game
         else if (commandWord.equals("eat")) {
             player.eat();
         }
+        else if (commandWord.equals("take")) {
+            player.take(command);
+        }
         else if (commandWord.equals("quit")) {
             wantToQuit = quit(command);
         }
