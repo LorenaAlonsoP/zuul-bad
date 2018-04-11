@@ -83,19 +83,31 @@ public class Game
 
         fueraCastillo.setExit("east", entrada);
 
-        habitacionInicial.addItem("Espejo", 8);
-        
-        pasilloSur.addItem("Escultura de marmol", 200);
-        
-        biblioteca.addItem("Estanteria de libros", 20);
-        
-        vestibulo.addItem("Fuente", 250);
-        
-        comedor.addItem("Silla", 10);
-        
-        salaChimenea.addItem("Sillón", 50);
-        
-        entrada.addItem("Florero", 30);
+        //Create the items.
+
+        Item espejo, bolsaDeMonedas, escultura, libro, fuente, silla;
+
+        espejo = new Item("Espejo",  2, false);
+        bolsaDeMonedas = new Item("Bolsa de Monedas", 20, true);
+        escultura = new Item("Escultura de Marmol", 200, false);
+        libro = new Item("Libro", 20, true);
+        fuente = new Item("Fuente", 250, false);
+        silla = new Item("Silla", 10, true);
+
+        habitacionInicial.addItem(espejo);
+
+        pasilloNorte.addItem(bolsaDeMonedas);
+
+        pasilloSur.addItem(escultura);
+
+        pasilloOeste.addItem(bolsaDeMonedas);
+
+        biblioteca.addItem(libro);
+
+        vestibulo.addItem(fuente);
+
+        comedor.addItem(silla);
+
         
         return habitacionInicial;  // start game outside
     }
@@ -161,6 +173,15 @@ public class Game
         }
         else if (commandWord.equals("eat")) {
             player.eat();
+        }
+        else if (commandWord.equals("take")) {
+            player.take(command);
+        }
+        else if (commandWord.equals("items")) {
+            player.dentroBolsa();
+        }
+        else if (commandWord.equals("drop")) {
+            player.drop(command);
         }
         else if (commandWord.equals("quit")) {
             wantToQuit = quit(command);

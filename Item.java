@@ -8,29 +8,30 @@
 public class Item
 {
     // instance variables - replace the example below with your own
-    private String itemDescription;
+    private String nombre;
     private int itemWeight;
-    private int id;
+    private boolean itemsDisponibles;
     /**
      * Constructor for objects of class Item
      */
-    public Item(String description, int weight)
+    public Item(String nombre, int itemWeight, boolean itemsDisponibles)
     {
-        itemDescription = description;
-        itemWeight = weight;
+        this.nombre = nombre;
+        this.itemWeight = itemWeight;
+        this.itemsDisponibles = itemsDisponibles;
     }
     
     /**
      * @return The description of the room.
      */
-    public String getItemDescription()
+    public String getNombre()
     {
-        return itemDescription;
+        return nombre;
     }
     
-    public void setItemDescription(String newDescription)
+    public void setNombre(String nombre)
     {
-        itemDescription = newDescription;
+        nombre = nombre;
     }
     
     /**
@@ -46,4 +47,16 @@ public class Item
         itemWeight = newWeight;
     }
     
+    public String getInfoItem()
+    {
+        return "Hay " + getNombre() + " y su peso es de: " + getWeight() + " Kg";
+    }
+    
+    /**
+     * Si el item es true se puede coger el objeto.
+     */
+    public boolean setSePuedeCoger() 
+    {
+        return itemsDisponibles;
+    }
 }
