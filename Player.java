@@ -121,4 +121,28 @@ public class Player
             }
         }
     }
+    
+    /**
+     * Método para poder tirar un objeto de la bolsa.
+     */
+    public void drop(Command command)
+    {
+        if(!command.hasSecondWord()) {
+            // if there is no second word, we don't know where to go...
+            System.out.println("¿que item necesitas?");
+            return;
+        }
+        String item = (command.getSecondWord());
+
+        for (Item itemA : bolsa)
+        {              
+            if (itemA.getItemDescription().equals (item))
+            {
+                System.out.println ("Objeto depositado");
+                bolsa.remove(itemA);
+                currentRoom.addItem(itemA);
+                break;
+            } 
+        }
+    }
 }

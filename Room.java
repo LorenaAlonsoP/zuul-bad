@@ -123,7 +123,7 @@ public class Room
         }
         else {
             for(Item object : listaItems) {
-                itemDato += object.getItemDescription() + " - " + object.getItemDescription() + " Kg.";
+                itemDato += object.getItemDescription() + " - " + object.getWeight() + " Kg";
             }
         }
         return itemDato;
