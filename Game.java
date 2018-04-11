@@ -1,4 +1,3 @@
-import java.util.Stack;
 /**
  *  This class is the main class of the "World of Zuul" application. 
  *  "World of Zuul" is a very simple, text based adventure game.  Users 
@@ -19,22 +18,20 @@ import java.util.Stack;
 public class Game 
 {
     private Parser parser;
-    private Room currentRoom;
-    private Stack<Room> ultimaSala;
+    private Player player;
     /**
      * Create the game and initialise its internal map.
      */
     public Game() 
     {
-        createRooms();
+        player = new Player(createRooms());
         parser = new Parser();
-        ultimaSala = new Stack<>();
     }
 
     /**
      * Create all the rooms and link their exits together.
      */
-    private void createRooms()
+    public Room createRooms()
     {
         Room fueraCastillo, entrada, salaChimenea, vestibulo, comedor, pasilloSur, habitacionInicial, pasilloOeste, pasilloEste, biblioteca, pasilloNorte;
 
@@ -100,7 +97,7 @@ public class Game
         
         entrada.addItem("Florero", 30);
         
-        currentRoom = habitacionInicial;  // start game outside
+        return habitacionInicial;  // start game outside
     }
 
     /**
@@ -124,14 +121,15 @@ public class Game
     /**
      * Print out the opening message for the player.
      */
-    private void printWelcome()
+    public void printWelcome()
     {
         System.out.println();
         System.out.println("¡Bienvenido a Legend of Ekem!");
         System.out.println("En Legend of Ekem trataremos de escapar de un castillo donde hemos despertado sin saber como hemos llegado allí.");
         System.out.println("Escribe 'help' si necesitas ayuda.");
         System.out.println();
-        printLocation();
+        player.look();
+        System.out.println("\n");
     }
 
     /**
@@ -139,7 +137,7 @@ public class Game
      * @param command The command to be processed.
      * @return true If the command ends the game, false otherwise.
      */
-    private boolean processCommand(Command command) 
+    public boolean processCommand(Command command) 
     {
         boolean wantToQuit = false;
 
@@ -152,17 +150,17 @@ public class Game
         if (commandWord.equals("help")) {
             printHelp();
         }
-        else if (commandWord.equals("go")) {
-            goRoom(command);
-        }
-        else if (commandWord.equals("eat")) {
-            eat();
-        }
         else if (commandWord.equals("look")) {
-            look();
+            player.look();
+        }
+        else if (commandWord.equals("go")) {
+            player.goRoom(command);
         }
         else if (commandWord.equals("back")) {
-            back();
+            player.back();
+        }
+        else if (commandWord.equals("eat")) {
+            player.eat();
         }
         else if (commandWord.equals("quit")) {
             wantToQuit = quit(command);
@@ -176,7 +174,7 @@ public class Game
      * Here we print some stupid, cryptic message and a list of the 
      * command words.
      */
-    private void printHelp() 
+    public void printHelp() 
     {
         System.out.println("Estas solo, perdido y desorientado.");
         System.out.println("en un castillo desconocido.");
@@ -186,40 +184,11 @@ public class Game
     }
 
     /** 
-     * Try to go in one direction. If there is an exit, enter
-     * the new room, otherwise print an error message.
-     */
-    private void goRoom(Command command) 
-    {
-        if(!command.hasSecondWord()) {
-            // if there is no second word, we don't know where to go...
-            System.out.println(":¿A dónde?");
-            return;
-        }
-
-        String direction = command.getSecondWord();
-
-        // Try to leave current room
-
-        Room nextRoom = currentRoom.getExit(direction);
-
-        if (nextRoom == null) {
-            System.out.println("There is no door!");
-        }
-        else {
-            ultimaSala.push(currentRoom);
-            currentRoom = nextRoom;
-            printLocation();
-        }
-    
-    }
-
-    /** 
      * "Quit" was entered. Check the rest of the command to see
      * whether we really quit the game.
      * @return true, if this command quits the game, false otherwise.
      */
-    private boolean quit(Command command) 
+    public boolean quit(Command command) 
     {
         if(command.hasSecondWord()) {
             System.out.println("¿Salir donde?");
@@ -230,33 +199,4 @@ public class Game
         }
     }
 
-    /**
-     * Método para que no haya repetición en los otros. Ejercicio 0108
-     */
-    private void printLocation()
-    {
-        System.out.println(currentRoom.getLongDescription());
-        System.out.println();
-    }
-
-    private void look() 
-    {
-        System.out.println(currentRoom.getLongDescription());
-    }
-
-    private void eat() 
-    {
-        System.out.println("Acabas de comer y ya no tienes hambre.");
-    }
-    
-    /**
-     * Método para volver a la sala anterior
-     */
-    private void back() 
-    {
-        if(!ultimaSala.empty()) {
-            currentRoom = ultimaSala.pop();
-            printLocation();
-        }
-    }
 }
