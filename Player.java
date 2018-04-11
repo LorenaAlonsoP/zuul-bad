@@ -12,6 +12,7 @@ public class Player
     private Room currentRoom;
     private Stack<Room> ultimaSala;
     private ArrayList<Item> bolsa;
+    private int pesoTotal;
     /**
      * Constructor for objects of class Player
      */
@@ -20,6 +21,7 @@ public class Player
         ultimaSala = new Stack<>();
         currentRoom = habitacionInicial;
         bolsa = new ArrayList<>();
+        pesoTotal = 50;
     }
 
     /** 
@@ -50,7 +52,7 @@ public class Player
             System.out.println("\n");
         }
     }
-    
+
     /**
      * Método para imprimir información.
      */
@@ -58,7 +60,7 @@ public class Player
     {
         System.out.println(currentRoom.getLongDescription());
     }
-    
+
     /**
      * Método para volver a la sala anterior
      */
@@ -68,7 +70,7 @@ public class Player
             currentRoom = ultimaSala.pop();
         }
     }
-    
+
     /**
      * Método que permite al personaje comer.
      */
@@ -76,7 +78,7 @@ public class Player
     {
         System.out.println("Acabas de comer y ya no tienes hambre.");
     }
-    
+
     /**
      * Método que permite al personaje coger objetos.
      */
@@ -92,10 +94,15 @@ public class Player
         {
             if(itemA.getItemDescription().equals (item))
             {
-                System.out.println("Item añadido a la bolsa.");
-                bolsa.add(itemA);
-                currentRoom.removeItem(itemA);
-                break;
+                if(itemA.getWeight() <= pesoTotal) {
+                    System.out.println("Item añadido a la bolsa.");
+                    bolsa.add(itemA);
+                    currentRoom.removeItem(itemA);
+                    break;
+                }
+                else {
+                    System.out.println("El objeto pesa demasiado, no se puede coger.");
+                }
             }
         }
     }
