@@ -10,7 +10,7 @@ public class Item
     // instance variables - replace the example below with your own
     private String itemDescription;
     private int itemWeight;
-
+    private int id;
     /**
      * Constructor for objects of class Item
      */
