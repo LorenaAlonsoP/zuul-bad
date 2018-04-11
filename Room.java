@@ -17,9 +17,8 @@ import java.util.ArrayList;
 public class Room 
 {
     private String description;
-    private Item items;
+    private ArrayList<Item> items;
     private HashMap<String, Room> exits;
-    private ArrayList<Item> listaItems;
     /**
      * Create a room described "description". Initially, it has
      * no exits. "description" is something like "a kitchen" or
@@ -29,7 +28,7 @@ public class Room
     public Room(String description) 
     {
         this.description = description;
-        listaItems = new ArrayList<>();
+        items = new ArrayList<>();
         exits = new HashMap<>();
     }
 
@@ -98,58 +97,53 @@ public class Room
      */
     public String getLongDescription()
     {
-        String dato = "";
-        dato = "Tu estas en " + description + ".\n" + "Objetos encontrados: " + devolverItem() + ".\n" +  getExitString();
+        String dato = "Tu estas en " + description + "\n";
+        if(items != null) {
+            for(Item item : items) {
+                dato += item.getInfoItem() + "\n";
+            }
+        }
         return dato;
     }
-    
+
     /**
      * Metodo para añadir más de un objeto.
      */
-    public void addItem(String itemDescription, int itemWeight) 
+    public void addItem(Item item) 
     {
-        Item newItem = new Item(itemDescription, itemWeight);
-        listaItems.add(newItem);
+        items.add(item);
     }
-    
+
     /**
      * Devuelve la lista de items.
      */
     public String devolverItem()
     {
         String itemDato = "";
-        if(listaItems.size() == 0) {
+        if(items.size() == 0) {
             itemDato = "No hay objetos";
         }
         else {
-            for(Item object : listaItems) {
-                itemDato += object.getItemDescription() + " - " + object.getWeight() + " Kg";
+            for(Item object : items) {
+                itemDato += object.getNombre() + " - " + object.getWeight() + " Kg";
             }
         }
         return itemDato;
     }
-    
+
     /**
      * ArrayList del item.
      */
-    public ArrayList<Item> firstItemList()
+    public ArrayList<Item> getListItems()
     {
-        return listaItems;
+        return items;
     }
-    
+
     /**
      * Método para eliminar objetos de la sala.
      */
     public void removeItem(Item remove)
     {
-        listaItems.remove(remove);
-    }
-    
-    /**
-     * Método para añadir nuevos objetos.
-     */
-    public void addItem(Item add) 
-    {
-        listaItems.add(add);
+        items.remove(remove);
     }
 }

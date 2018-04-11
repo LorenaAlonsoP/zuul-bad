@@ -1,5 +1,6 @@
 import java.util.Stack;
 import java.util.ArrayList;
+import java.util.Random;
 /**
  * Write a description of class Player here.
  *
@@ -13,6 +14,7 @@ public class Player
     private Stack<Room> ultimaSala;
     private ArrayList<Item> bolsa;
     private int pesoTotal;
+    private static final int pesoMaximo = 50;
     /**
      * Constructor for objects of class Player
      */
@@ -21,7 +23,7 @@ public class Player
         ultimaSala = new Stack<>();
         currentRoom = habitacionInicial;
         bolsa = new ArrayList<>();
-        pesoTotal = 50;
+        pesoTotal = 0;
     }
 
     /** 
@@ -82,67 +84,77 @@ public class Player
     /**
      * Método que permite al personaje coger objetos.
      */
-    public void take(Command command)
+    public void take(String nombre)
     {
-        if(!command.hasSecondWord()) {
-            System.out.println("¿Qué item quieres coger?");
-            return;
-        }
-        String item = (command.getSecondWord());
-        ArrayList<Item> coger = currentRoom.firstItemList();
-        for (Item itemA : coger)
+        ArrayList<Item> itemsRoom = currentRoom.getListItems();
+        Item item = null;
+        for(int i=0;i < itemsRoom.size(); i++)
         {
-            if(itemA.getItemDescription().equals (item))
-            {
-                if(itemA.getWeight() <= pesoTotal) {
-                    System.out.println("Item añadido a la bolsa.");
-                    bolsa.add(itemA);
-                    currentRoom.removeItem(itemA);
-                    break;
-                }
-                else {
-                    System.out.println("El objeto pesa demasiado, no se puede coger.");
-                }
+            if(itemsRoom.get(i).getNombre().equals(nombre))
+            {                item = itemsRoom.get(i);
             }
         }
+
+        if(item.setSePuedeCoger() && item != null){
+            int pesoTotal = pesoMaximo + item.getWeight();
+            boolean disponibilidad = true;
+            int contador = 0;            
+            if(pesoTotal <= pesoMaximo){
+                bolsa.add(item);
+                pesoTotal += item.getWeight();
+                itemsRoom.remove(item);
+                System.out.println("Has metido en la bolsa el siguiente item: " + nombre);
+            }
+            else{
+                System.out.println("La bolsa está a tope, no puedes coger más cosas.");
+            }            
+        }
+        else{
+            System.out.println("No puedes coger ese item.");
+        }
     }
-    
+
     /**
      * Método que muestra los objetos que se encuentran dentro de la bolsa.
      */
     public void dentroBolsa() 
     {
-        if(bolsa.size() == 0) {
-            System.out.println("La bolsa está vacía.");
-        }
-        else {
-            for (Item itemA : bolsa) {
-                System.out.println(itemA.getItemDescription() + " - " + itemA.getWeight() + " Kg.");
+        if(bolsa.size() > 0){
+            for(Item item : bolsa)
+            {
+                System.out.println(item.getNombre() + " - " + item.getWeight() + " Kg.");      
             }
         }
+        else{
+            System.out.println("La bolsa está vacia.");
+        }
     }
-    
+
     /**
      * Método para poder tirar un objeto de la bolsa.
      */
-    public void drop(Command command)
+    public void drop(String nombre)
     {
-        if(!command.hasSecondWord()) {
-            // if there is no second word, we don't know where to go...
-            System.out.println("¿que item necesitas?");
-            return;
-        }
-        String item = (command.getSecondWord());
-
-        for (Item itemA : bolsa)
-        {              
-            if (itemA.getItemDescription().equals (item))
+        if(bolsa.size() > 0){
+            boolean disponibilidad = true;
+            int contador = 0;
+            Item item = null;
+            while(disponibilidad)
             {
-                System.out.println ("Objeto depositado");
-                bolsa.remove(itemA);
-                currentRoom.addItem(itemA);
-                break;
-            } 
+                if(bolsa.get(contador).getNombre().equals(nombre)){
+                    item = bolsa.get(contador);
+                    currentRoom.addItem(item);
+                    disponibilidad = false;
+                    pesoTotal -= item.getWeight();
+                    bolsa.remove(contador);
+                }
+                contador++;
+            }
+            System.out.println("Has soltado este objeto: " + nombre);
         }
-    }
+        else
+        {
+            System.out.println("La bolsa está vacia, no puedes soltar ningun objeto.");
+        }
+    }   
 }
