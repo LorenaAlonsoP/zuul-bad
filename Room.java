@@ -146,4 +146,20 @@ public class Room
     {
         items.remove(remove);
     }
+
+    /**
+     * Método para eliminar objetos de la sala.
+     */
+    public void removeItem(String itemEnSala) 
+    {
+        boolean borradoObjeto = true;
+        int i = 0;
+        while (borradoObjeto == true && i<items.size ()){
+            Item itemActual = items.get(i);
+            if (itemEnSala.equals(itemActual.getNombre())){
+                items.remove(itemActual);
+            }
+            i++;
+        }
+    }
 }

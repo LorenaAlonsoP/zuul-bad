@@ -157,4 +157,45 @@ public class Player
             System.out.println("La bolsa está vacia, no puedes soltar ningun objeto.");
         }
     }   
+    
+    /**
+     * Método que permite usar el pico o no.
+     */
+    public boolean getPico(Command command)
+    {
+        boolean pico = false;
+        for(Item itemB: bolsa) {
+            if(itemB.getNombre().equals("Pico")) {
+                pico = true;
+                System.out.println("Has conseguido un pico");
+            }
+            else {
+                System.out.println("No tienes ningún pico");
+            }
+        }
+        return pico;
+    }
+    
+    /**
+     * Método para romper el muro.
+     */
+    public void destroy(Command command) 
+    {
+        ArrayList<Item> itemB = currentRoom.getListItems();
+        boolean eliminarMuro = true;
+        int i = 0;
+        while (eliminarMuro == true && i < itemB.size()) {
+            Item item = itemB.get(i);
+            if (item.getNombre().equals("Muro")) {
+                if(getPico(command) == true) {
+                    System.out.println("¡Has destruido el muro!");
+                    currentRoom.removeItem("Muro");
+                }
+                else {
+                    System.out.println("No has conseguido destruir el muro");
+                }
+            }
+            i++;
+        }
+    }
 }
