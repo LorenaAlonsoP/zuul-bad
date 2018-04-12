@@ -85,7 +85,7 @@ public class Game
 
         //Create the items.
 
-        Item espejo, bolsaDeMonedas, escultura, libro, fuente, silla;
+        Item espejo, bolsaDeMonedas, escultura, libro, fuente, silla, pico, muro;
 
         espejo = new Item("Espejo",  2, false);
         bolsaDeMonedas = new Item("Bolsa de Monedas", 20, true);
@@ -93,6 +93,8 @@ public class Game
         libro = new Item("Libro", 20, true);
         fuente = new Item("Fuente", 250, false);
         silla = new Item("Silla", 10, true);
+        pico = new Item("Pico", 5, true);
+        muro = new Item("Muro", 500, false);
 
         habitacionInicial.addItem(espejo);
 
@@ -175,13 +177,16 @@ public class Game
             player.eat();
         }
         else if (commandWord.equals("take")) {
-            player.take(command);
+            player.take(command.getSecondWord());
         }
         else if (commandWord.equals("items")) {
             player.dentroBolsa();
         }
         else if (commandWord.equals("drop")) {
-            player.drop(command);
+            player.drop(command.getSecondWord());
+        }
+        else if (commandWord.equals("destroy")) {
+            player.destroy(command);
         }
         else if (commandWord.equals("quit")) {
             wantToQuit = quit(command);
