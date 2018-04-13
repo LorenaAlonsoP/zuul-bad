@@ -1,3 +1,4 @@
+import java.util.HashMap;
 /**
  * This class is part of the "World of Zuul" application. 
  * "World of Zuul" is a very simple, text based adventure game.  
@@ -11,18 +12,34 @@
 
 public class CommandWords
 {
-    // a constant array that holds all valid command words
-    private static final String[] validCommands = {
-            "go", "quit", "help", "look", "eat", "back", "take", "items",
-            "drop", "destroy"
-        };
-
+    private HashMap<String,CommandWord>validCommands;
     /**
      * Constructor - initialise the command words.
      */
     public CommandWords()
     {
-        // nothing to do at the moment...
+        validCommands = new HashMap<>();
+        validCommands.put("go", CommandWord.GO);
+        validCommands.put("help", CommandWord.HELP);
+        validCommands.put("look", CommandWord.LOOK);
+        validCommands.put("eat", CommandWord.EAT);
+        validCommands.put("back", CommandWord.BACK);
+        validCommands.put("take", CommandWord.TAKE);
+        validCommands.put("items", CommandWord.ITEMS);
+        validCommands.put("drop", CommandWord.DROP);
+        validCommands.put("destroy", CommandWord.DESTROY);
+        validCommands.put("quit", CommandWord.QUIT);
+    }
+
+    /**
+     * Return the CommandWord associated with a word.
+     * @param commandWord The word to look up (as a string).
+     * @return The CommandWord corresponding to the String commandWord, or UNKNOWN
+     *         if it is not a valid command word.
+     */
+    public CommandWord getCommandWord(String commandWord) 
+    {
+        
     }
 
     /**
